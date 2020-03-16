@@ -1,6 +1,38 @@
 ## Basic Algorithm Questions
 
-- ## **Name some of the graph algorithms**
+- **Name some of the sorting algorithms**
+
+  - Selection Sort
+  - Bubble Sort
+  - Insertion Sort
+  - Merge Sort
+  - Quick Sort
+  - Heap Sort
+  - Counting Sort
+  - Radix Sort
+  - Bucket Sort
+
+- **Name some of the search algorithms**
+
+  - Binary Search
+  - Exponential Search
+  - Jump Search
+  - Linear Search
+
+- **Name some of the graph algorithms**
+
+  - Breadth First Search (BFS)
+  - Depth First Search (DFS)
+  - Dijkstra's Algorithm
+  - Floyd Warshall Algorithm
+
+- **What are greedy algorithms?**
+
+  - greedy algorithm picks the best immediate choice and never reconsiders its choices. In terms of optimizing a solution, this simply means that the greedy solution will try and find local optimum solutions - which can be many - and might miss out on a global optimum solution.
+
+  - Imagine you are going for hiking and your goal is to reach the highest peak possible. You already have the map before you start, but there are thousands of possible paths shown on the map. You are too lazy and simply don’t have the time to evaluate each of them. Screw the map! You started hiking with a simple strategy – be greedy and short-sighted. Just take paths that slope upwards the most. This seems like a good strategy for hiking. But is it always the best ?
+
+  - After the trip ended and your whole body is sore and tired, you look at the hiking map for the first time. Oh my god! There’s a muddy river that I should’ve crossed, instead of keep walking upwards. This means that a greedy algorithm picks the best immediate choice and never reconsiders its choices. In terms of optimizing a solution, this simply means that the greedy solution will try and find local optimum solutions - which can be many - and might miss out on a global optimum solution.
 
 - **Name some of the Divide and Conquer Algorithms**
 
