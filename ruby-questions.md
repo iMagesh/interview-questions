@@ -1,6 +1,7 @@
 ## Ruby Interview Questions
 
 - **How to understand nil vs. empty vs. blank in Rails (and Ruby)**
+
   `.nil?` can be used on any object and is true if the object is nil.
 
   `.empty?` can be used on strings, arrays and hashes and returns true if:
@@ -44,6 +45,7 @@
   ![alt Ruby nil](./images/ruby-nil.png)
 
 - **How to call shell commands from Ruby?**
+
   This explanation is based on a commented [Ruby script][1] from a friend of mine. If you want to improve the script, feel free to update it at the link.
 
   First, note that when Ruby calls out to a shell, it typically calls `/bin/sh`, _not_ Bash. Some Bash syntax is not supported by `/bin/sh` on all systems.
@@ -200,3 +202,98 @@
   ```
 
   That's it. In order to understand how `attr_reader`, `attr_writer`, and `attr_accessor` methods actually generate methods for you, read other answers, books, ruby docs.
+
+- **Why is it bad style to `rescue Exception => e` in Ruby?**
+
+  **TL;DR**: Use `StandardError` instead for general exception catching. When the original exception is re-raised (e.g. when rescuing to log the exception only), rescuing `Exception` is probably okay.
+
+  `Exception` is the root of [Ruby's exception hierarchy](http://rubylearning.com/images/exception.jpg), so when you `rescue Exception` you rescue from _everything_, including subclasses such as `SyntaxError`, `LoadError`, and `Interrupt`.
+
+  Rescuing `Interrupt` prevents the user from using <kbd>CTRL</kbd><kbd>C</kbd> to exit the program.
+
+  Rescuing `SignalException` prevents the program from responding correctly to signals. It will be unkillable except by `kill -9`.
+
+  Rescuing `SyntaxError` means that `eval`s that fail will do so silently.
+
+- **What does `class << self` do in Ruby? (class << self idiom)**
+
+  First, the `class << foo` syntax opens up `foo`'s singleton class (eigenclass). This allows you to specialise the behaviour of methods called on that specific object.
+
+  ```ruby
+  a = 'foo'
+  class << a
+    def inspect
+      '"bar"'
+    end
+  end
+  a.inspect   # => "bar"
+
+  a = 'foo'   # new object, new singleton class
+  a.inspect   # => "foo"
+  ```
+
+  ***
+
+  Now, to answer the question: `class << self` opens up `self`'s singleton class, so that methods can be redefined for the current `self` object (which inside a class or module body is the class or module _itself_). Usually, this is used to define class/module ("static") methods:
+
+  ```ruby
+  class String
+    class << self
+      def value_of obj
+        obj.to_s
+      end
+    end
+  end
+
+  String.value_of 42   # => "42"
+  ```
+
+  This can also be written as a shorthand:
+
+  ```ruby
+  class String
+    def self.value_of obj
+      obj.to_s
+    end
+  end
+  ```
+
+  Or even shorter:
+
+  ```ruby
+  def String.value_of obj
+    obj.to_s
+  end
+  ```
+
+  ***
+
+  When inside a function definition, `self` refers to the object the function is being called with. In this case, `class << self` opens the singleton class for that object; one use of that is to implement a poor man's state machine:
+
+  ```ruby
+  class StateMachineExample
+    def process obj
+      process_hook obj
+    end
+
+  private
+    def process_state_1 obj
+      # ...
+      class << self
+        alias process_hook process_state_2
+      end
+    end
+
+    def process_state_2 obj
+      # ...
+      class << self
+        alias process_hook process_state_1
+      end
+    end
+
+    # Set up initial state
+    alias process_hook process_state_1
+  end
+  ```
+
+  So, in the example above, each instance of `StateMachineExample` has `process_hook` aliased to `process_state_1`, but note how in the latter, it can redefine `process_hook` (for `self` only, not affecting other `StateMachineExample` instances) to `process_state_2`. So, each time a caller calls the `process` method (which calls the redefinable `process_hook`), the behaviour changes depending on what state it's in.
