@@ -19,6 +19,40 @@
   - **Random Access** – Linked lists do not allow random access, while arrays do
   - **Size** – While the size of an array is fixed, the size of a linked list is dynamic
 
+- **Could you give a brief explanation of the various approaches for developing algorithms?**
+
+  - Divide and Conquer – Involves dividing the entire problem into a number of subproblems and then solving each of them independently
+  - Dynamic Programming – Identical to the divide and conquer approach with the exception that all sub-problems are solved together
+  - Greedy Approach – Finds a solution by choosing the next best option
+
+- **Please enumerate some examples of greedy and divide and conquer algorithms.**
+
+  - Some examples of algorithms that follow greedy approach are:
+
+    - Dijkstra’s Minimal Spanning Tree
+    - Graph – Map Coloring
+    - Graph – Vertex Cover
+    - Job Scheduling Problem
+    - Knapsack Problem
+    - Kruskal’s Minimal Spanning Tree
+    - Prim’s Minimal Spanning Tree
+    - Travelling Salesman
+
+  - Following are some notable instances of the divide and conquer approach:
+
+    - Binary Search
+    - Closest Pair (or Points)
+    - Merge Sort
+    - Quick Sort
+    - Strassen’s Matrix Multiplication
+
+- **Please explain recursion.**
+
+  - The ability to allow a function or module to call itself is called recursion. Either a function f calls itself directly or calls another function ‘g’ that in turn calls the function ‘f. The function f is known as the recursive function and it follows the recursive properties:
+
+    - _Base criteria_ – Where the recursive function stops calling itself
+    - _Progressive approach_ – Where the recursive function tries to meet the base criteria in each iteration
+
 - **What is a queue? How is it different from a stack?**
 
   - A queue is a form of linear structure that follows the FIFO (First In First Out) approach for accessing elements. Dequeue, enqueue, front, and rear are basic operations on a queue. Like a stack, a queue can be implemented using arrays and linked lists.
