@@ -1,5 +1,29 @@
 ## Ruby Interview Questions
 
+### How to generate a random string in Ruby
+
+```ruby
+(0...8).map { (65 + rand(26)).chr }.join
+```
+
+I spend too much time golfing.
+
+```ruby
+(0...50).map { ('a'..'z').to_a[rand(26)] }.join
+```
+
+And a last one that's even more confusing, but more flexible and wastes fewer cycles:
+
+```ruby
+o = [('a'..'z'), ('A'..'Z')].map(&:to_a).flatten
+string = (0...50).map { o[rand(o.length)] }.join
+```
+
+- **How to check if a specific key is present in a hash or not?**
+
+  `session.key?("user")`
+
+-
 - **How to understand nil vs. empty vs. blank in Rails (and Ruby)**
 
   `.nil?` can be used on any object and is true if the object is nil.
@@ -44,7 +68,7 @@
 
   ![alt Ruby nil](./images/ruby-nil.png)
 
-- **How to call shell commands from Ruby?**
+* **How to call shell commands from Ruby?**
 
   This explanation is based on a commented [Ruby script][1] from a friend of mine. If you want to improve the script, feel free to update it at the link.
 
