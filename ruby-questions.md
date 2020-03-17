@@ -19,56 +19,59 @@ o = [('a'..'z'), ('A'..'Z')].map(&:to_a).flatten
 string = (0...50).map { o[rand(o.length)] }.join
 ```
 
-- **How to check if a specific key is present in a hash or not?**
+### **How to check if a specific key is present in a hash or not?**
 
-  `session.key?("user")`
+`session.key?("user")`
 
--
-- **How to understand nil vs. empty vs. blank in Rails (and Ruby)**
+### Ruby function to remove all white spaces?
 
-  `.nil?` can be used on any object and is true if the object is nil.
+If you want to remove only leading and trailing whitespace (like PHP's trim) you can use `.strip`, but if you want to remove all whitespace, you can use `.gsub(/\s+/, "")` instead .
 
-  `.empty?` can be used on strings, arrays and hashes and returns true if:
+### **How to understand nil vs. empty vs. blank in Rails (and Ruby)**
 
-  ```
-  String length == 0
-  Array length == 0
-  Hash length == 0
-  ```
+`.nil?` can be used on any object and is true if the object is nil.
 
-  Running `.empty?` on something that is nil will throw a NoMethodError.
+`.empty?` can be used on strings, arrays and hashes and returns true if:
 
-  That is where `.blank?` comes in. It is implemented by Rails and will operate on any object as well as work like `.empty?` on strings, arrays and hashes.
+```
+String length == 0
+Array length == 0
+Hash length == 0
+```
 
-  ```
-  nil.blank? == true
-  false.blank? == true
-  [].blank? == true
-  {}.blank? == true
-  "".blank? == true
-  5.blank? == false
-  0.blank? == false
-  ```
+Running `.empty?` on something that is nil will throw a NoMethodError.
 
-  `.blank?` also evaluates true on strings which are non-empty but contain only whitespace:
+That is where `.blank?` comes in. It is implemented by Rails and will operate on any object as well as work like `.empty?` on strings, arrays and hashes.
 
-  ```
-  "  ".blank? == true
-  "  ".empty? == false
-  ```
+```
+nil.blank? == true
+false.blank? == true
+[].blank? == true
+{}.blank? == true
+"".blank? == true
+5.blank? == false
+0.blank? == false
+```
 
-  Rails also provides `.present?`, which returns the negation of `.blank?`.
+`.blank?` also evaluates true on strings which are non-empty but contain only whitespace:
 
-  Array gotcha: blank? will return false even if all elements of an array are blank. To determine blankness in this case, use all? with blank?, for example:
+```
+"  ".blank? == true
+"  ".empty? == false
+```
 
-  ```
-  [ nil, '' ].blank? == false
-  [ nil, '' ].all? &:blank? == tru
-  ```
+Rails also provides `.present?`, which returns the negation of `.blank?`.
 
-  ![alt Ruby nil](./images/ruby-nil.png)
+Array gotcha: blank? will return false even if all elements of an array are blank. To determine blankness in this case, use all? with blank?, for example:
 
-* **How to call shell commands from Ruby?**
+```
+[ nil, '' ].blank? == false
+[ nil, '' ].all? &:blank? == tru
+```
+
+![alt Ruby nil](./images/ruby-nil.png)
+
+- **How to call shell commands from Ruby?**
 
   This explanation is based on a commented [Ruby script][1] from a friend of mine. If you want to improve the script, feel free to update it at the link.
 
