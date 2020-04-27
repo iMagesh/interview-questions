@@ -207,3 +207,16 @@ Symbols have two nice properties compared to strings which can save you memory a
 The difference remains in the object_id, memory and process time for both of them when used together at one time
 Strings are considered as mutable objects. Whereas, symbols, belongs to the category of immutable
 Strings objects are mutable so that it takes only the assignments to change the object information. Whereas, information of, immutable objects gets overwritten
+
+## 22. How do you track the performance of the application
+
+## 23. What will happen on locking a gem in gemfile.lock and performing bundle update
+
+## 24. Write a braces/brackets/parentheses validator.
+Let's say:
+* '(', '{', '[' are called "openers."
+* ')', '}', ']' are called "closers."
+Given a string containing brackets [], braces {}, parentheses (), or any combination thereof, write an efficient method that verify all pairs are matched and nested correctly.
+
+Internal Hint: Should use stack. 
+
