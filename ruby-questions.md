@@ -325,13 +325,29 @@ Array gotcha: blank? will return false even if all elements of an array are blan
 
   So, in the example above, each instance of `StateMachineExample` has `process_hook` aliased to `process_state_1`, but note how in the latter, it can redefine `process_hook` (for `self` only, not affecting other `StateMachineExample` instances) to `process_state_2`. So, each time a caller calls the `process` method (which calls the redefinable `process_hook`), the behaviour changes depending on what state it's in.
 
-## Given the input arr = [[{"a" => 10},{"b" => 20},{"c" => 30}], [{"x" => 40},{"y" => 50},{"z" => 60}]]
+## Given the input
+
+```ruby
+arr = [
+  [
+    {"a" => 10},{"b" => 20},{"c" => 30}],
+    [
+      {"x" => 40},{"y" => 50},{"z" => 60}
+    ]
+  ]
+]
+```
+
 How can you obtain the following?
 a)one array containing all keys
 b)another array containing all values
 c)another array the sum of all the values
 
 Ans: Merge all arrays into single Hash and assign to var ans
-ans.keys                   # will return all keys
-ans.values                 # will return all values
-ans.values.inject(:+)      # will return the sum of all values
+ans.keys # will return all keys
+ans.values # will return all values
+ans.values.inject(:+) # will return the sum of all values
+
+## What is the method is remove leading and trailing whitespaces?
+
+`.strip`

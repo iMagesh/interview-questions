@@ -208,15 +208,121 @@ The difference remains in the object_id, memory and process time for both of the
 Strings are considered as mutable objects. Whereas, symbols, belongs to the category of immutable
 Strings objects are mutable so that it takes only the assignments to change the object information. Whereas, information of, immutable objects gets overwritten
 
-## 22. How do you track the performance of the application
+### 22. How do you track the performance of the application
 
-## 23. What will happen on locking a gem in gemfile.lock and performing bundle update
+### 23. What will happen on locking a gem in gemfile.lock and performing bundle update
 
-## 24. Write a braces/brackets/parentheses validator.
+### 24. Write a braces/brackets/parentheses validator.
+
 Let's say:
-* '(', '{', '[' are called "openers."
-* ')', '}', ']' are called "closers."
+
+- '(', '{', '[' are called "openers."
+- ')', '}', ']' are called "closers."
+
 Given a string containing brackets [], braces {}, parentheses (), or any combination thereof, write an efficient method that verify all pairs are matched and nested correctly.
 
-Internal Hint: Should use stack. 
+Internal Hint: Should use stack.
 
+### 25. Memoization in Ruby
+
+Memoization is a technique you can use to speed up your accessor methods. It caches the results of methods that do time-consuming work, work that only needs to be done once
+
+```ruby
+class User < ActiveRecord::Base
+  def twitter_followers
+    # assuming twitter_user.followers makes a network call
+    @twitter_followers ||= twitter_user.followers
+  end
+end
+```
+
+But what if you want to memoize a method that takes parameters, like this one?
+
+`app/models/city.rb` file **Before Memoization**
+
+```ruby
+class City < ActiveRecord::Base
+  def self.top_cities(order_by)
+    where(top_city: true).order(order_by).to_a
+  end
+end
+```
+
+**After memoization**
+
+```ruby
+class City < ActiveRecord::Base
+  def self.top_cities(order_by)
+    @top_cities ||= Hash.new do |h, key|
+      h[key] = where(top_city: true).order(key).to_a
+    end
+    @top_cities[order_by]
+  end
+end
+```
+
+And no matter what you pass into order_by, the correct result will get memoized. Since the block is only called when the key doesn’t exist, you don’t have to worry about the result of the block being nil or false.
+
+Amazingly, Hash works just fine with keys that are actually arrays:
+
+```ruby
+h = {}
+h[["a", "b"]] = "c"
+h[["a", "b"]] # => "c"
+```
+
+So you can use this pattern in methods with any number of parameters!
+
+**Multi-line memoization**
+
+```ruby
+class User < ActiveRecord::Base
+  def main_address
+    @main_address ||= begin
+      maybe_main_address = home_address if prefers_home_address?
+      maybe_main_address = work_address unless maybe_main_address
+      maybe_main_address = addresses.first unless maybe_main_address
+    end
+  end
+end
+```
+
+### 26. If you wish for a migration to do something that Active Record doesn't know how to reverse
+
+use `reversible`:
+
+```ruby
+class ChangeProductsPrice < ActiveRecord::Migration[5.0]
+  def change
+    reversible do |dir|
+      change_table :products do |t|
+        dir.up   { t.change :price, :string }
+        dir.down { t.change :price, :integer }
+      end
+    end
+  end
+end
+```
+
+Alternatively, you can use `up` and `down` instead of change:
+
+```ruby
+
+class ChangeProductsPrice < ActiveRecord::Migration[5.0]
+  def up
+    change_table :products do |t|
+      t.change :price, :string
+    end
+  end
+
+  def down
+    change_table :products do |t|
+      t.change :price, :integer
+    end
+  end
+end
+```
+
+### 27. How to add an association to models via command line?
+
+`rails g model Comment name:string post:references`
