@@ -8,7 +8,7 @@ Table of Contents
 - [How to understand nil vs. empty vs. blank in Rails (and Ruby)](#how-to-understand-nil-vs-empty-vs-blank-in-rails-and-ruby)
 - [How to call shell commands from Ruby?](#how-to-call-shell-commands-from-ruby)
 - [What is attr_accessor in Ruby?](#what-is-attraccessor-in-ruby)
-- [Why is it bad style to `rescue Exception => e` in Ruby?](#why-is-it-bad-style-to-rescue-exception-e-in-ruby)
+- [Why is it bad style to rescue exception e in Ruby?](#why-is-it-bad-style-to-rescue-exception-e-in-ruby)
 - [What does `class << self` do in Ruby? (class << self idiom)](#what-does-class-self-do-in-ruby-class-self-idiom)
 
 ### How to generate a random string in Ruby
@@ -241,7 +241,7 @@ Array gotcha: blank? will return false even if all elements of an array are blan
 
   That's it. In order to understand how `attr_reader`, `attr_writer`, and `attr_accessor` methods actually generate methods for you, read other answers, books, ruby docs.
 
-- **Why is it bad style to `rescue Exception => e` in Ruby?**
+- **Why is it bad style to rescue exception e in Ruby?**
 
   **TL;DR**: Use `StandardError` instead for general exception catching. When the original exception is re-raised (e.g. when rescuing to log the exception only), rescuing `Exception` is probably okay.
 
