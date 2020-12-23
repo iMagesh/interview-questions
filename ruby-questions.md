@@ -8,8 +8,8 @@ Table of Contents
 - [How to understand nil vs. empty vs. blank in Rails (and Ruby)](#how-to-understand-nil-vs-empty-vs-blank-in-rails-and-ruby)
 - [How to call shell commands from Ruby?](#how-to-call-shell-commands-from-ruby)
 - [What is attr_accessor in Ruby?](#what-is-attraccessor-in-ruby)
-- [Why is it bad style to `rescue Exception => e` in Ruby?](#why-is-it-bad-style-to-rescue-exception--e-in-ruby)
-- [What does `class << self` do in Ruby? (class << self idiom)](#what-does-class--self-do-in-ruby-class--self-idiom)
+- [Why is it bad style to `rescue Exception => e` in Ruby?](#why-is-it-bad-style-to-rescue-exception-e-in-ruby)
+- [What does `class << self` do in Ruby? (class << self idiom)](#what-does-class-self-do-in-ruby-class-self-idiom)
 
 ### How to generate a random string in Ruby
 
