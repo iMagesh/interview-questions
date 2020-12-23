@@ -1,5 +1,11 @@
 ## Ruby Interview Questions
 
+Table of Contents
+
+- [How to generate a random string in Ruby](#how-to-generate-a-random-string-in-ruby)
+- [How to check if a specific key is present in a hash or not?](How-to-check-if-a-specific-key-is-present-in-a-hash-or-not?)
+- [Ruby function to remove all white spaces?](Ruby-function-to-remove-all-white-spaces?)
+
 ### How to generate a random string in Ruby
 
 ```ruby
