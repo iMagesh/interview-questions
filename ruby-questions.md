@@ -9,7 +9,7 @@ Table of Contents
 - [How to call shell commands from Ruby?](#how-to-call-shell-commands-from-ruby)
 - [What is attr_accessor in Ruby?](#what-is-attraccessor-in-ruby)
 - [Why is it bad style to rescue exception e in Ruby?](#why-is-it-bad-style-to-rescue-exception-e-in-ruby)
-- [What does `class << self` do in Ruby? (class << self idiom)](#what-does-class-self-do-in-ruby-class-self-idiom)
+- [What does class << self do in Ruby?](#what-does-class-self-do-in-ruby)
 
 ### How to generate a random string in Ruby
 
@@ -253,7 +253,7 @@ Array gotcha: blank? will return false even if all elements of an array are blan
 
   Rescuing `SyntaxError` means that `eval`s that fail will do so silently.
 
-- **What does `class << self` do in Ruby? (class << self idiom)**
+- **What does `class << self` do in Ruby?**
 
   First, the `class << foo` syntax opens up `foo`'s singleton class (eigenclass). This allows you to specialise the behaviour of methods called on that specific object.
 
