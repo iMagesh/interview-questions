@@ -5,7 +5,7 @@ Table of Contents
 - [How to generate a random string in Ruby](#how-to-generate-a-random-string-in-ruby)
 - [How to check if a specific key is present in a hash or not?](#how-to-check-if-a-specific-key-is-present-in-a-hash-or-not)
 - [Ruby function to remove all white spaces?](#ruby-function-to-remove-all-white-spaces)
-- [How to understand nil vs. empty vs. blank in Rails (and Ruby)](#how-to-understand-nil-vs.-empty-vs.-blank-in-rails-and-ruby)
+- [How to understand nil vs. empty vs. blank in Rails (and Ruby)](#how-to-understand-nil-vs-empty-vs-blank-in-rails-and-ruby)
 
 ### How to generate a random string in Ruby
 
