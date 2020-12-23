@@ -253,7 +253,7 @@ Array gotcha: blank? will return false even if all elements of an array are blan
 
   Rescuing `SyntaxError` means that `eval`s that fail will do so silently.
 
-- **What does `class << self` do in Ruby?**
+- **What does class << self do in Ruby?**
 
   First, the `class << foo` syntax opens up `foo`'s singleton class (eigenclass). This allows you to specialise the behaviour of methods called on that specific object.
 
