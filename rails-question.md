@@ -326,3 +326,11 @@ end
 ### 27. How to add an association to models via command line?
 
 `rails g model Comment name:string post:references`
+
+### 28. When to use include and extends?
+
+### 29. In Action mailer, we define functions as an instance method but while calling we do it as a class method like UserMailer.welcome.deliver
+
+### 30. While defining routes we use it as class methods but it is actually pointing to instance methods of a controller. How does that work?
+
+### 31.
