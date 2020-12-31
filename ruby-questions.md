@@ -9,7 +9,7 @@ Table of Contents
 - [How to call shell commands from Ruby?](#how-to-call-shell-commands-from-ruby)
 - [What is attr_accessor in Ruby?](#what-is-attr_accessor-in-ruby)
 - [Why is it bad style to rescue exception e in Ruby?](#why-is-it-bad-style-to-rescue-exception-e-in-ruby)
-- [What does class << self do in Ruby?](#what-does-class-self-do-in-ruby)
+- [What does class << self do in Ruby?](#what-does-class--self-do-in-ruby)
 - [Obtain keys, values and sum from array](#obtain-keys-values-and-sum-from-array)
 - [What is the method to remove leading and trailing whitespaces?](#what-is-the-method-to-remove-leading-and-trailing-whitespaces)
 
