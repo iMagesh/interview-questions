@@ -7,9 +7,11 @@ Table of Contents
 - [Ruby function to remove all white spaces?](#ruby-function-to-remove-all-white-spaces)
 - [How to understand nil vs. empty vs. blank in Rails (and Ruby)](#how-to-understand-nil-vs-empty-vs-blank-in-rails-and-ruby)
 - [How to call shell commands from Ruby?](#how-to-call-shell-commands-from-ruby)
-- [What is attr_accessor in Ruby?](#what-is-attraccessor-in-ruby)
+- [What is attr_accessor in Ruby?](#what-is-attr_accessor-in-ruby)
 - [Why is it bad style to rescue exception e in Ruby?](#why-is-it-bad-style-to-rescue-exception-e-in-ruby)
 - [What does class << self do in Ruby?](#what-does-class-self-do-in-ruby)
+- [Obtain keys, values and sum from array](#obtain-keys-values-and-sum-from-array)
+- [What is the method to remove leading and trailing whitespaces?](#what-is-the-method-to-remove-leading-and-trailing-whitespaces)
 
 ### How to generate a random string in Ruby
 
@@ -82,261 +84,260 @@ Array gotcha: blank? will return false even if all elements of an array are blan
 
 ![alt Ruby nil](./images/ruby-nil.png)
 
-- **How to call shell commands from Ruby?**
+### **How to call shell commands from Ruby?**
 
-  This explanation is based on a commented [Ruby script][1] from a friend of mine. If you want to improve the script, feel free to update it at the link.
+This explanation is based on a commented [Ruby script][1] from a friend of mine. If you want to improve the script, feel free to update it at the link.
 
-  First, note that when Ruby calls out to a shell, it typically calls `/bin/sh`, _not_ Bash. Some Bash syntax is not supported by `/bin/sh` on all systems.
+First, note that when Ruby calls out to a shell, it typically calls `/bin/sh`, _not_ Bash. Some Bash syntax is not supported by `/bin/sh` on all systems.
 
-  Here are ways to execute a shell script:
+Here are ways to execute a shell script:
 
       cmd = "echo 'hi'" # Sample string that can be used
 
-  1.  <code>Kernel#\`</code> , commonly called backticks – <code>\`cmd\`</code>
+1.  <code>Kernel#\`</code> , commonly called backticks – <code>\`cmd\`</code>
 
-      This is like many other languages, including Bash, PHP, and Perl.
+    This is like many other languages, including Bash, PHP, and Perl.
 
-      Returns the result (i.e. standard output) of the shell command.
+    Returns the result (i.e. standard output) of the shell command.
 
-      Docs: http://ruby-doc.org/core/Kernel.html#method-i-60
+    Docs: http://ruby-doc.org/core/Kernel.html#method-i-60
 
-                value = `echo 'hi'`
-                value = `#{cmd}`
+              value = `echo 'hi'`
+              value = `#{cmd}`
 
-  2.  Built-in syntax, `%x( cmd )`
+2.  Built-in syntax, `%x( cmd )`
 
-      Following the `x` character is a delimiter, which can be any character.
-      If the delimiter is one of the characters `(`, `[`, `{`, or `<`,
-      the literal consists of the characters up to the matching closing delimiter,
-      taking account of nested delimiter pairs. For all other delimiters, the
-      literal comprises the characters up to the next occurrence of the
-      delimiter character. String interpolation `#{ ... }` is allowed.
+    Following the `x` character is a delimiter, which can be any character.
+    If the delimiter is one of the characters `(`, `[`, `{`, or `<`,
+    the literal consists of the characters up to the matching closing delimiter,
+    taking account of nested delimiter pairs. For all other delimiters, the
+    literal comprises the characters up to the next occurrence of the
+    delimiter character. String interpolation `#{ ... }` is allowed.
 
-      Returns the result (i.e. standard output) of the shell command, just like the backticks.
+    Returns the result (i.e. standard output) of the shell command, just like the backticks.
 
-      Docs: http://www.ruby-doc.org/docs/ProgrammingRuby/html/language.html
+    Docs: http://www.ruby-doc.org/docs/ProgrammingRuby/html/language.html
 
-              value = %x( echo 'hi' )
-              value = %x[ #{cmd} ]
+            value = %x( echo 'hi' )
+            value = %x[ #{cmd} ]
 
-  3.  `Kernel#system`
+3.  `Kernel#system`
 
-      Executes the given command in a subshell.
+    Executes the given command in a subshell.
 
-      Returns `true` if the command was found and run successfully, `false` otherwise.
+    Returns `true` if the command was found and run successfully, `false` otherwise.
 
-      Docs: http://ruby-doc.org/core/Kernel.html#method-i-system
+    Docs: http://ruby-doc.org/core/Kernel.html#method-i-system
 
-            wasGood = system( "echo 'hi'" )
-            wasGood = system( cmd )
+          wasGood = system( "echo 'hi'" )
+          wasGood = system( cmd )
 
-  4.  `Kernel#exec`
+4.  `Kernel#exec`
 
-      Replaces the current process by running the given external command.
+    Replaces the current process by running the given external command.
 
-      Returns none, the current process is replaced and never continues.
+    Returns none, the current process is replaced and never continues.
 
-      Docs: http://ruby-doc.org/core/Kernel.html#method-i-exec
+    Docs: http://ruby-doc.org/core/Kernel.html#method-i-exec
 
-            exec( "echo 'hi'" )
-            exec( cmd ) # Note: this will never be reached because of the line above
+          exec( "echo 'hi'" )
+          exec( cmd ) # Note: this will never be reached because of the line above
 
-  Here's some extra advice:
-  `$?`, which is the same as `$CHILD_STATUS`, accesses the status of the last system executed command if you use the backticks, `system()` or `%x{}`.
-  You can then access the `exitstatus` and `pid` properties:
+Here's some extra advice:
+`$?`, which is the same as `$CHILD_STATUS`, accesses the status of the last system executed command if you use the backticks, `system()` or `%x{}`.
+You can then access the `exitstatus` and `pid` properties:
 
             $?.exitstatus
 
-  For more reading see:
+For more reading see:
 
-  - http://www.elctech.com/blog/i-m-in-ur-commandline-executin-ma-commands
-  - http://blog.jayfields.com/2006/06/ruby-kernel-system-exec-and-x.html
-  - http://tech.natemurray.com/2007/03/ruby-shell-commands.html
+- http://www.elctech.com/blog/i-m-in-ur-commandline-executin-ma-commands
+- http://blog.jayfields.com/2006/06/ruby-kernel-system-exec-and-x.html
+- http://tech.natemurray.com/2007/03/ruby-shell-commands.html
 
+        [1]: http://gist.github.com/4069
 
-          [1]: http://gist.github.com/4069
+### **What is attr_accessor in Ruby?**
 
-- **What is attr_accessor in Ruby?**
+Let's say you have a class `Person`.
 
-  Let's say you have a class `Person`.
+```ruby
+class Person
+end
 
-  ```ruby
-  class Person
+person = Person.new
+person.name # => no method error
+```
+
+Obviously we never defined method `name`. Let's do that.
+
+```ruby
+class Person
+  def name
+  @name # simply returning an instance variable @name
+  end
+end
+
+person = Person.new
+person.name # => nil
+person.name = "Dennis" # => no method error
+```
+
+Aha, we can read the name, but that doesn't mean we can assign the name. Those are two different methods. The former is called _reader_ and latter is called _writer_. We didn't create the writer yet so let's do that.
+
+```ruby
+class Person
+  def name
+  @name
   end
 
-  person = Person.new
-  person.name # => no method error
-  ```
-
-  Obviously we never defined method `name`. Let's do that.
-
-  ```ruby
-  class Person
-    def name
-    @name # simply returning an instance variable @name
-    end
+  def name=(str)
+    @name = str
   end
 
-  person = Person.new
-  person.name # => nil
-  person.name = "Dennis" # => no method error
-  ```
+end
 
-  Aha, we can read the name, but that doesn't mean we can assign the name. Those are two different methods. The former is called _reader_ and latter is called _writer_. We didn't create the writer yet so let's do that.
+person = Person.new
+person.name = 'Dennis'
+person.name # => "Dennis"
+```
 
-  ```ruby
-  class Person
-    def name
-    @name
-    end
+Awesome. Now we can write and read instance variable `@name` using reader and writer methods. Except, this is done so frequently, why waste time writing these methods every time? We can do it easier.
 
-    def name=(str)
-      @name = str
-    end
+```ruby
+class Person
+  attr_reader :name
+  attr_writer :name
+end
+```
 
+Even this can get repetitive. When you want both reader and writer just use accessor!
+
+```ruby
+class Person
+  attr_accessor :name
+end
+
+person = Person.new
+person.name = "Dennis"
+person.name # => "Dennis"
+```
+
+Works the same way! And guess what: the instance variable `@name` in our person object will be set just like when we did it manually, so you can use it in other methods.
+
+```ruby
+class Person
+  attr_accessor :name
+
+  def greeting
+    "Hello #{@name}"
   end
 
-  person = Person.new
-  person.name = 'Dennis'
-  person.name # => "Dennis"
-  ```
+end
 
-  Awesome. Now we can write and read instance variable `@name` using reader and writer methods. Except, this is done so frequently, why waste time writing these methods every time? We can do it easier.
+person = Person.new
+person.name = "Dennis"
+person.greeting # => "Hello Dennis"
+```
 
-  ```ruby
-  class Person
-    attr_reader :name
-    attr_writer :name
+That's it. In order to understand how `attr_reader`, `attr_writer`, and `attr_accessor` methods actually generate methods for you, read other answers, books, ruby docs.
+
+### **Why is it bad style to `rescue exception => e` in Ruby?**
+
+**TL;DR**: Use `StandardError` instead for general exception catching. When the original exception is re-raised (e.g. when rescuing to log the exception only), rescuing `Exception` is probably okay.
+
+`Exception` is the root of [Ruby's exception hierarchy](http://rubylearning.com/images/exception.jpg), so when you `rescue Exception` you rescue from _everything_, including subclasses such as `SyntaxError`, `LoadError`, and `Interrupt`.
+
+Rescuing `Interrupt` prevents the user from using <kbd>CTRL</kbd><kbd>C</kbd> to exit the program.
+
+Rescuing `SignalException` prevents the program from responding correctly to signals. It will be unkillable except by `kill -9`.
+
+Rescuing `SyntaxError` means that `eval`s that fail will do so silently.
+
+### **What does class << self do in Ruby?**
+
+First, the `class << foo` syntax opens up `foo`'s singleton class (eigenclass). This allows you to specialise the behaviour of methods called on that specific object.
+
+```ruby
+a = 'foo'
+class << a
+  def inspect
+    '"bar"'
   end
-  ```
+end
+a.inspect   # => "bar"
 
-  Even this can get repetitive. When you want both reader and writer just use accessor!
+a = 'foo'   # new object, new singleton class
+a.inspect   # => "foo"
+```
 
-  ```ruby
-  class Person
-    attr_accessor :name
-  end
+---
 
-  person = Person.new
-  person.name = "Dennis"
-  person.name # => "Dennis"
-  ```
+Now, to answer the question: `class << self` opens up `self`'s singleton class, so that methods can be redefined for the current `self` object (which inside a class or module body is the class or module _itself_). Usually, this is used to define class/module ("static") methods:
 
-  Works the same way! And guess what: the instance variable `@name` in our person object will be set just like when we did it manually, so you can use it in other methods.
-
-  ```ruby
-  class Person
-    attr_accessor :name
-
-    def greeting
-      "Hello #{@name}"
-    end
-
-  end
-
-  person = Person.new
-  person.name = "Dennis"
-  person.greeting # => "Hello Dennis"
-  ```
-
-  That's it. In order to understand how `attr_reader`, `attr_writer`, and `attr_accessor` methods actually generate methods for you, read other answers, books, ruby docs.
-
-- **Why is it bad style to rescue exception e in Ruby?**
-
-  **TL;DR**: Use `StandardError` instead for general exception catching. When the original exception is re-raised (e.g. when rescuing to log the exception only), rescuing `Exception` is probably okay.
-
-  `Exception` is the root of [Ruby's exception hierarchy](http://rubylearning.com/images/exception.jpg), so when you `rescue Exception` you rescue from _everything_, including subclasses such as `SyntaxError`, `LoadError`, and `Interrupt`.
-
-  Rescuing `Interrupt` prevents the user from using <kbd>CTRL</kbd><kbd>C</kbd> to exit the program.
-
-  Rescuing `SignalException` prevents the program from responding correctly to signals. It will be unkillable except by `kill -9`.
-
-  Rescuing `SyntaxError` means that `eval`s that fail will do so silently.
-
-- **What does class << self do in Ruby?**
-
-  First, the `class << foo` syntax opens up `foo`'s singleton class (eigenclass). This allows you to specialise the behaviour of methods called on that specific object.
-
-  ```ruby
-  a = 'foo'
-  class << a
-    def inspect
-      '"bar"'
-    end
-  end
-  a.inspect   # => "bar"
-
-  a = 'foo'   # new object, new singleton class
-  a.inspect   # => "foo"
-  ```
-
-  ***
-
-  Now, to answer the question: `class << self` opens up `self`'s singleton class, so that methods can be redefined for the current `self` object (which inside a class or module body is the class or module _itself_). Usually, this is used to define class/module ("static") methods:
-
-  ```ruby
-  class String
-    class << self
-      def value_of obj
-        obj.to_s
-      end
-    end
-  end
-
-  String.value_of 42   # => "42"
-  ```
-
-  This can also be written as a shorthand:
-
-  ```ruby
-  class String
-    def self.value_of obj
+```ruby
+class String
+  class << self
+    def value_of obj
       obj.to_s
     end
   end
-  ```
+end
 
-  Or even shorter:
+String.value_of 42   # => "42"
+```
 
-  ```ruby
-  def String.value_of obj
+This can also be written as a shorthand:
+
+```ruby
+class String
+  def self.value_of obj
     obj.to_s
   end
-  ```
+end
+```
 
-  ***
+Or even shorter:
 
-  When inside a function definition, `self` refers to the object the function is being called with. In this case, `class << self` opens the singleton class for that object; one use of that is to implement a poor man's state machine:
+```ruby
+def String.value_of obj
+  obj.to_s
+end
+```
 
-  ```ruby
-  class StateMachineExample
-    def process obj
-      process_hook obj
-    end
+---
 
-  private
-    def process_state_1 obj
-      # ...
-      class << self
-        alias process_hook process_state_2
-      end
-    end
+When inside a function definition, `self` refers to the object the function is being called with. In this case, `class << self` opens the singleton class for that object; one use of that is to implement a poor man's state machine:
 
-    def process_state_2 obj
-      # ...
-      class << self
-        alias process_hook process_state_1
-      end
-    end
-
-    # Set up initial state
-    alias process_hook process_state_1
+```ruby
+class StateMachineExample
+  def process obj
+    process_hook obj
   end
-  ```
 
-  So, in the example above, each instance of `StateMachineExample` has `process_hook` aliased to `process_state_1`, but note how in the latter, it can redefine `process_hook` (for `self` only, not affecting other `StateMachineExample` instances) to `process_state_2`. So, each time a caller calls the `process` method (which calls the redefinable `process_hook`), the behaviour changes depending on what state it's in.
+private
+  def process_state_1 obj
+    # ...
+    class << self
+      alias process_hook process_state_2
+    end
+  end
 
-## Given the input
+  def process_state_2 obj
+    # ...
+    class << self
+      alias process_hook process_state_1
+    end
+  end
+
+  # Set up initial state
+  alias process_hook process_state_1
+end
+```
+
+So, in the example above, each instance of `StateMachineExample` has `process_hook` aliased to `process_state_1`, but note how in the latter, it can redefine `process_hook` (for `self` only, not affecting other `StateMachineExample` instances) to `process_state_2`. So, each time a caller calls the `process` method (which calls the redefinable `process_hook`), the behaviour changes depending on what state it's in.
+
+### Obtain keys, values and sum from array
 
 ```ruby
 arr = [
@@ -359,6 +360,6 @@ ans.keys # will return all keys
 ans.values # will return all values
 ans.values.inject(:+) # will return the sum of all values
 
-## What is the method is remove leading and trailing whitespaces?
+### What is the method to remove leading and trailing whitespaces?
 
 `.strip`
